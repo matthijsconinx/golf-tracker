@@ -25,6 +25,32 @@
       ],
       "tees": [],
       "createdAt": "2026-08-13T04:20:15.486Z"
+    },
+    {
+      "id": "r_msr0fovf7nkyy",
+      "name": "Iompo",
+      "pars": [
+        5,
+        5,
+        5,
+        6,
+        5,
+        5,
+        5,
+        5,
+        3,
+        3,
+        3,
+        3,
+        5,
+        3,
+        3,
+        2,
+        3,
+        2
+      ],
+      "tees": [],
+      "createdAt": "2026-08-13T04:20:34.347Z"
     }
   ],
   "rounds": [
@@ -61,7 +87,7 @@
     {
       "id": "r_msr07cmaqskko",
       "date": "2026-08-12",
-      "course": "Hgjj",
+      "course": "Iompo",
       "par": 71,
       "score": 89,
       "players": "Jefke",
