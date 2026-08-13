@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fairway Log">
+<meta name="theme-color" content="#1F5D3E">
+<title>Fairway Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F6F0; --surface:#FFFFFF; --text:#1E2A22; --text-muted:#5B6B5F;
+    --accent:#1F5D3E; --accent-dark:#164430; --accent-light:#E7EFE5;
+    --flag:#C1442D; --border:#DCE0D6; --danger:#B3261E; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:max(24px, env(safe-area-inset-bottom));
+  }
+  .app{max-width:480px;margin:0 auto;padding:0 16px;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:max(20px, env(safe-area-inset-top)) 0 12px;}
+  .brand{display:flex;align-items:center;gap:8px;}
+  .brand h1{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0;letter-spacing:-0.01em;}
+  .icon-btn{background:none;border:none;font-size:20px;color:var(--text-muted);cursor:pointer;padding:6px;line-height:1;}
+  .sync-status{font-size:12px;color:var(--text-muted);margin-bottom:16px;min-height:16px;}
+  .sync-status.error{color:var(--danger);}
+  .sync-status.warn{color:#8A6D1F;}
+  .sync-status.ok{color:var(--accent);}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 6px;text-align:center;}
+  .stat-num{font-family:'Fraunces',serif;font-size:20px;font-weight:600;}
+  .stat-num.small{font-size:12px;font-weight:500;font-family:'Inter',sans-serif;}
+  .stat-label{font-size:11px;color:var(--text-muted);margin-top:2px;}
+
+  .chart-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;}
+  .chart-section h2{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:0 0 8px;font-weight:500;}
+
+  .primary-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:24px;}
+  .primary-btn:active{background:var(--accent-dark);}
+  .primary-btn:disabled{opacity:.6;}
+
+  .history h2{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);font-weight:500;margin:0 0 10px;}
+  .round-card{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;cursor:pointer;}
+  .round-main{flex:1;min-width:0;}
+  .round-date{font-size:11px;color:var(--text-muted);}
+  .round-course{font-weight:600;font-size:15px;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .round-players{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .chip{background:var(--accent-light);color:var(--accent-dark);font-size:11px;padding:2px 8px;border-radius:100px;}
+  .round-score{text-align:right;}
+  .score-num{font-family:'Fraunces',serif;font-size:22px;font-weight:600;}
+  .par-tag{display:block;font-size:11px;margin-top:2px;font-weight:600;}
+  .par-tag.over{color:var(--danger);}
+  .par-tag.under{color:var(--accent);}
+  .par-tag.even{color:var(--text-muted);}
+  .delete-btn{background:none;border:none;color:var(--text-muted);font-size:12px;padding:4px;cursor:pointer;}
+  .empty{color:var(--text-muted);font-size:14px;text-align:center;padding:24px 0;}
+
+  .modal-overlay{position:fixed;inset:0;background:rgba(30,42,34,.4);display:flex;align-items:flex-end;justify-content:center;z-index:100;}
+  .modal{background:var(--surface);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:20px 20px max(20px, env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .modal-header h2{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0;}
+  .modal-intro{font-size:13px;color:var(--text-muted);margin:0 0 14px;}
+  label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:12px;font-weight:500;}
+  input,textarea{width:100%;margin-top:5px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;color:var(--text);background:#fff;}
+  input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .token-row{display:flex;gap:8px;align-items:center;}
+  .token-row input{flex:1;}
+  details{margin-bottom:14px;}
+  summary{font-size:13px;color:var(--accent-dark);font-weight:500;cursor:pointer;}
+  .holes-row-label{font-size:11px;color:var(--text-muted);margin:8px 0 4px;}
+  .holes-row{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;}
+  .hole-label{font-size:10px;text-align:center;color:var(--text-muted);margin:0;}
+  .hole-input{width:100%;padding:6px 2px;text-align:center;font-size:13px;margin-top:2px;}
+  .hint{font-size:12px;color:var(--text-muted);line-height:1.5;margin:-4px 0 14px;}
+  .hint a{color:var(--accent-dark);}
+  .form-error{background:#FBEAEA;color:var(--danger);font-size:13px;padding:8px 10px;border-radius:8px;margin-bottom:12px;}
+  .modal-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:4px;}
+  .text-btn{background:none;border:none;color:var(--text-muted);font-size:14px;cursor:pointer;padding:8px 0;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+        <ellipse cx="12" cy="21" rx="7" ry="1.8" fill="#1F5D3E" opacity="0.2"></ellipse>
+        <line x1="7" y1="21" x2="7" y2="3" stroke="#1E2A22" stroke-width="1.4" stroke-linecap="round"></line>
+        <path d="M7 4 L17 7 L7 10 Z" fill="#C1442D"></path>
+      </svg>
+      <h1>Fairway Log</h1>
+    </div>
+    <button class="icon-btn" id="settingsBtn" aria-label="Settings">&#9881;</button>
+  </header>
+
+  <div id="syncStatus" class="sync-status"></div>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="chart-section" id="chartSection" hidden>
+    <h2>Score trend</h2>
+    <div id="chartWrap"></div>
+  </section>
+
+  <button class="primary-btn" id="addBtn">+ Add round</button>
+
+  <section class="history">
+    <h2>Rounds</h2>
+    <div id="roundsList"></div>
+    <p id="emptyState" class="empty" hidden></p>
+  </section>
+</div>
+
+<div class="modal-overlay" id="roundModal" hidden>
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="roundModalTitle">Add round</h2>
+      <button class="icon-btn" id="closeRoundModal" aria-label="Close">&times;</button>
+    </div>
+    <form id="roundForm">
+      <label>Date
+        <input type="date" name="date" required>
+      </label>
+      <label>Course
+        <input type="text" name="course" required placeholder="e.g. Pebble Creek GC">
+      </label>
+      <div class="row">
+        <label>Par (optional)
+          <input type="number" name="par" placeholder="72">
+        </label>
+        <label>Total score
+          <input type="number" name="score" required placeholder="e.g. 96">
+        </label>
+      </div>
+      <label>Who you played with (optional)
+        <input type="text" name="players" placeholder="e.g. Sam, Priya">
+      </label>
+      <details id="holesDetails">
+        <summary>Add hole-by-hole scores (optional)</summary>
+        <div class="holes-grid" id="holesGrid"></div>
+      </details>
+      <label>Notes (optional)
+        <textarea name="notes" rows="2" placeholder="Conditions, how it felt, anything worth remembering"></textarea>
+      </label>
+      <div class="form-error" id="roundFormError" hidden></div>
+      <div class="modal-actions">
+        <button type="button" class="text-btn" id="cancelRound">Cancel</button>
+        <button type="submit" class="primary-btn" id="saveRoundBtn" style="width:auto;margin:0;">Save round</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsModal" hidden>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Settings</h2>
+      <button class="icon-btn" id="closeSettingsModal" aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-intro" id="settingsIntro"></p>
+    <form id="settingsForm">
+      <label>GitHub username
+        <input type="text" name="owner" required placeholder="e.g. yourusername">
+      </label>
+      <label>Repository name
+        <input type="text" name="repo" required placeholder="e.g. golf-tracker">
+      </label>
+      <label>Personal access token
+        <div class="token-row">
+          <input type="password" name="token" required placeholder="github_pat_...">
+          <button type="button" class="text-btn" id="toggleTokenVisibility">Show</button>
+        </div>
+      </label>
+      <p class="hint">Use a fine-grained token scoped to only this one repo, with "Contents: Read and write" permission. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create one on GitHub →</a></p>
+      <div class="form-error" id="settingsError" hidden></div>
+      <div class="modal-actions">
+        <button type="button" class="text-btn" id="downloadBackupBtn">Download backup</button>
+        <button type="submit" class="primary-btn" id="saveSettingsBtn" style="width:auto;margin:0;">Save and connect</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var CONFIG_KEY = 'flg_config';
+  var CACHE_KEY = 'flg_cache';
+  var API_BASE = 'https://api.github.com';
+
+  var state = { rounds: [], sha: null, editingId: null };
+
+  function $(sel, root){ return (root||document).querySelector(sel); }
+  function $$(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+
+  function escapeHTML(str){
+    return String(str==null?'':str).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  function b64EncodeUnicode(str){
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(_, p1){
+      return String.fromCharCode(parseInt(p1, 16));
+    }));
+  }
+  function b64DecodeUnicode(str){
+    return decodeURIComponent(Array.prototype.map.call(atob(str), function(c){
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  }
+
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function formatDate(s){
+    var parts = s.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1]-1, parts[2]);
+    return dt.toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+  }
+  function genId(){
+    return 'r_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  }
+
+  // ---- config & cache ----
+  function getConfig(){
+    try { var raw = localStorage.getItem(CONFIG_KEY); return raw ? JSON.parse(raw) : null; }
+    catch(e){ return null; }
+  }
+  function setConfig(cfg){ localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); }
+  function cacheLocally(rounds){
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify(rounds)); } catch(e){}
+  }
+  function loadLocalCache(){
+    try { var raw = localStorage.getItem(CACHE_KEY); return raw ? JSON.parse(raw) : null; }
+    catch(e){ return null; }
+  }
+
+  // ---- GitHub API ----
+  function ghHeaders(token){
+    return {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    };
+  }
+
+  function fetchRounds(){
+    var cfg = getConfig();
+    if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) return Promise.reject(new Error('Settings not configured yet'));
+    var url = API_BASE + '/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + (cfg.path || 'rounds.json');
+    return fetch(url, { headers: ghHeaders(cfg.token) }).then(function(res){
+      if (res.status === 404) return { rounds: [], sha: null };
+      if (!res.ok) {
+        if (res.status === 401 || res.status === 403) throw new Error('Token rejected (' + res.status + ')');
+        throw new Error('GitHub error ' + res.status);
+      }
+      return res.json().then(function(data){
+        var rounds = [];
+        try { rounds = JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g,''))); } catch(e){ rounds = []; }
+        if (!Array.isArray(rounds)) rounds = [];
+        return { rounds: rounds, sha: data.sha };
+      });
+    });
+  }
+
+  function putRounds(rounds, sha){
+    var cfg = getConfig();
+    var url = API_BASE + '/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + (cfg.path || 'rounds.json');
+    var body = {
+      message: 'Update rounds.json (' + rounds.length + ' rounds)',
+      content: b64EncodeUnicode(JSON.stringify(rounds, null, 2))
+    };
+    if (sha) body.sha = sha;
+
+    function doPut(b){
+      return fetch(url, {
+        method: 'PUT',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, ghHeaders(cfg.token)),
+        body: JSON.stringify(b)
+      });
+    }
+
+    return doPut(body).then(function(res){
+      if (res.status === 409) {
+        // sha was stale - refetch latest and retry once
+        return fetchRounds().then(function(fresh){
+          var retryBody = { message: body.message, content: body.content };
+          if (fresh.sha) retryBody.sha = fresh.sha;
+          return doPut(retryBody).then(function(res2){
+            if (!res2.ok) throw new Error('GitHub save failed (' + res2.status + ')');
+            return res2.json().then(function(d){ return d.content.sha; });
+          });
+        });
+      }
+      if (!res.ok) {
+        if (res.status === 401 || res.status === 403) throw new Error('Token rejected (' + res.status + ')');
+        throw new Error('GitHub save failed (' + res.status + ')');
+      }
+      return res.json().then(function(d){ return d.content.sha; });
+    });
+  }
+
+  function saveRounds(newRounds){
+    setSyncStatus('Saving…', 'syncing');
+    return putRounds(newRounds, state.sha).then(function(sha){
+      state.sha = sha;
+      state.rounds = newRounds;
+      cacheLocally(newRounds);
+      setSyncStatus('Synced just now', 'ok');
+      return true;
+    }).catch(function(err){
+      console.error(err);
+      setSyncStatus('Sync error — ' + err.message, 'error');
+      return false;
+    });
+  }
+
+  function setSyncStatus(text, type){
+    var el = $('#syncStatus');
+    el.textContent = text;
+    el.className = 'sync-status ' + (type || '');
+  }
+
+  // ---- stats & chart ----
+  function computeStats(rounds){
+    if (!rounds.length) return null;
+    var scores = rounds.map(function(r){ return r.score; }).filter(function(n){ return typeof n === 'number' && !isNaN(n); });
+    if (!scores.length) return null;
+    var avg = scores.reduce(function(a,b){ return a+b; }, 0) / scores.length;
+    var best = Math.min.apply(null, scores);
+    var freq = {};
+    rounds.forEach(function(r){ if (r.course) freq[r.course] = (freq[r.course]||0) + 1; });
+    var mostPlayed = null, max = 0;
+    Object.keys(freq).forEach(function(c){ if (freq[c] > max) { max = freq[c]; mostPlayed = c; } });
+    return { count: rounds.length, avg: avg, best: best, mostPlayed: mostPlayed };
+  }
+
+  function renderStats(){
+    var s = computeStats(state.rounds);
+    var el = $('#stats');
+    if (!s) { el.innerHTML = ''; return; }
+    el.innerHTML =
+      '<div class="stat-card"><div class="stat-num">' + s.count + '</div><div class="stat-label">Rounds</div></div>' +
+      '<div class="stat-card"><div class="stat-num">' + s.avg.toFixed(1) + '</div><div class="stat-label">Avg score</div></div>' +
+      '<div class="stat-card"><div class="stat-num">' + s.best + '</div><div class="stat-label">Best round</div></div>' +
+      '<div class="stat-card"><div class="stat-num small">' + (s.mostPlayed ? escapeHTML(s.mostPlayed) : '—') + '</div><div class="stat-label">Top course</div></div>';
+  }
+
+  function renderChart(){
+    var section = $('#chartSection');
+    if (state.rounds.length < 2) { section.hidden = true; return; }
+    section.hidden = false;
+    var sorted = state.rounds.slice().sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+    var scores = sorted.map(function(r){ return r.score; });
+    var min = Math.min.apply(null, scores), max = Math.max.apply(null, scores);
+    var w = 320, h = 110, pad = 18;
+    var range = (max - min) || 1;
+    var stepX = sorted.length > 1 ? (w - 2*pad) / (sorted.length - 1) : 0;
+    var pts = scores.map(function(s, i){
+      var x = pad + i * stepX;
+      var y = pad + (1 - (s - min) / range) * (h - 2*pad);
+      return [x, y];
+    });
+    var pathD = pts.map(function(p, i){ return (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+    var circles = pts.map(function(p){ return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.5" fill="#1F5D3E"></circle>'; }).join('');
+    $('#chartWrap').innerHTML =
+      '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="' + h + '" role="img" aria-label="Score trend over time">' +
+      '<path d="' + pathD + '" fill="none" stroke="#1F5D3E" stroke-width="2"></path>' + circles + '</svg>';
+  }
+
+  // ---- rounds list ----
+  function renderList(){
+    var list = $('#roundsList');
+    var empty = $('#emptyState');
+    if (!state.rounds.length) {
+      list.innerHTML = '';
+      empty.hidden = false;
+      empty.textContent = 'No rounds yet — tap "Add round" to log your first one.';
+      return;
+    }
+    empty.hidden = true;
+    var sorted = state.rounds.slice().sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
+    list.innerHTML = sorted.map(roundCardHTML).join('');
+    $$('.round-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        var round = state.rounds.find(function(r){ return r.id === card.dataset.id; });
+        if (round) openRoundModal(round);
+      });
+    });
+    $$('.delete-btn').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        deleteRound(btn.dataset.id);
+      });
+    });
+  }
+
+  function roundCardHTML(r){
+    var players = (r.players || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    var chips = players.map(function(p){ return '<span class="chip">' + escapeHTML(p) + '</span>'; }).join('');
+    var parTag = '';
+    if (r.par) {
+      var diff = r.score - r.par;
+      var label = diff === 0 ? 'E' : (diff > 0 ? '+' + diff : String(diff));
+      var cls = diff > 0 ? 'over' : (diff < 0 ? 'under' : 'even');
+      parTag = '<span class="par-tag ' + cls + '">' + label + '</span>';
+    }
+    return '<div class="round-card" data-id="' + r.id + '">' +
+      '<div class="round-main">' +
+        '<div class="round-date">' + formatDate(r.date) + '</div>' +
+        '<div class="round-course">' + escapeHTML(r.course || 'Unknown course') + '</div>' +
+        (chips ? '<div class="round-players">' + chips + '</div>' : '') +
+      '</div>' +
+      '<div class="round-score"><span class="score-num">' + r.score + '</span>' + parTag + '</div>' +
+      '<button class="delete-btn" data-id="' + r.id + '" aria-label="Delete round">Delete</button>' +
+    '</div>';
+  }
+
+  function renderEmptyShell(){
+    $('#stats').innerHTML = '';
+    $('#chartSection').hidden = true;
+    $('#roundsList').innerHTML = '';
+    var empty = $('#emptyState');
+    empty.hidden = false;
+    empty.textContent = 'Connect a GitHub repo in Settings to get started.';
+  }
+
+  function renderAll(){
+    renderStats();
+    renderChart();
+    renderList();
+  }
+
+  // ---- hole-by-hole grid ----
+  function holeInputHTML(n){
+    return '<label class="hole-label">' + n + '<input type="number" class="hole-input" data-hole="' + n + '"></label>';
+  }
+  function buildHolesGrid(){
+    var grid = $('#holesGrid');
+    var html = '<div class="holes-row-label">Front 9</div><div class="holes-row">';
+    for (var i=1;i<=9;i++) html += holeInputHTML(i);
+    html += '</div><div class="holes-row-label">Back 9</div><div class="holes-row">';
+    for (var j=10;j<=18;j++) html += holeInputHTML(j);
+    html += '</div>';
+    grid.innerHTML = html;
+    $$('.hole-input').forEach(function(inp){ inp.addEventListener('input', recomputeTotalFromHoles); });
+  }
+  function recomputeTotalFromHoles(){
+    var vals = $$('.hole-input').map(function(i){ return i.value ? parseInt(i.value,10) : null; });
+    var filled = vals.filter(function(v){ return v !== null; });
+    if (filled.length) {
+      var sum = filled.reduce(function(a,b){ return a+b; }, 0);
+      $('#roundForm [name="score"]').value = sum;
+    }
+  }
+
+  // ---- round modal ----
+  function openRoundModal(round){
+    state.editingId = round ? round.id : null;
+    $('#roundModalTitle').textContent = round ? 'Edit round' : 'Add round';
+    var form = $('#roundForm');
+    form.reset();
+    $$('.hole-input').forEach(function(i){ i.value = ''; });
+    $('#holesDetails').open = false;
+    $('#roundFormError').hidden = true;
+    if (round) {
+      form.date.value = round.date || '';
+      form.course.value = round.course || '';
+      form.par.value = round.par || '';
+      form.score.value = round.score != null ? round.score : '';
+      form.players.value = round.players || '';
+      form.notes.value = round.notes || '';
+      if (round.holes && round.holes.length === 18) {
+        $('#holesDetails').open = true;
+        round.holes.forEach(function(v, idx){
+          var inp = $('.hole-input[data-hole="' + (idx+1) + '"]');
+          if (inp && v != null) inp.value = v;
+        });
+      }
+    } else {
+      form.date.value = todayStr();
+    }
+    $('#roundModal').hidden = false;
+  }
+  function closeRoundModal(){
+    $('#roundModal').hidden = true;
+    state.editingId = null;
+  }
+  function showFormError(msg){
+    var el = $('#roundFormError');
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function handleRoundFormSubmit(e){
+    e.preventDefault();
+    var form = e.target;
+    var date = form.date.value;
+    var course = form.course.value.trim();
+    var par = form.par.value ? parseInt(form.par.value, 10) : null;
+    var score = parseInt(form.score.value, 10);
+    var players = form.players.value.trim();
+    var notes = form.notes.value.trim();
+    var holes = null;
+    if ($('#holesDetails').open) {
+      var vals = $$('.hole-input').map(function(i){ return i.value ? parseInt(i.value,10) : null; });
+      if (vals.some(function(v){ return v !== null; })) holes = vals;
+    }
+    if (!date || !course || isNaN(score)) {
+      showFormError('Please fill in date, course, and score.');
+      return;
+    }
+    var newRounds;
+    if (state.editingId) {
+      newRounds = state.rounds.map(function(r){
+        return r.id === state.editingId ? Object.assign({}, r, { date:date, course:course, par:par, score:score, players:players, notes:notes, holes:holes }) : r;
+      });
+    } else {
+      newRounds = state.rounds.concat([{
+        id: genId(), date:date, course:course, par:par, score:score, players:players, notes:notes, holes:holes,
+        createdAt: new Date().toISOString()
+      }]);
+    }
+    var btn = $('#saveRoundBtn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    saveRounds(newRounds).then(function(ok){
+      btn.disabled = false; btn.textContent = 'Save round';
+      if (ok) { closeRoundModal(); renderAll(); }
+      else showFormError('Could not sync to GitHub — this entry was not saved. Check your connection and try again.');
+    });
+  }
+
+  function deleteRound(id){
+    if (!confirm('Delete this round? This cannot be undone.')) return;
+    var newRounds = state.rounds.filter(function(r){ return r.id !== id; });
+    saveRounds(newRounds).then(function(ok){
+      if (ok) renderAll();
+      else alert('Could not delete — sync failed. Check your connection and try again.');
+    });
+  }
+
+  // ---- settings modal ----
+  function openSettingsModal(firstRun){
+    var cfg = getConfig();
+    $('#settingsForm').reset();
+    if (cfg) {
+      $('#settingsForm [name="owner"]').value = cfg.owner || '';
+      $('#settingsForm [name="repo"]').value = cfg.repo || '';
+      $('#settingsForm [name="token"]').value = cfg.token || '';
+    }
+    $('#settingsIntro').textContent = firstRun
+      ? 'Connect this app to a GitHub repo so your rounds are saved and backed up automatically.'
+      : 'Update where your rounds are stored.';
+    $('#settingsError').hidden = true;
+    $('#settingsModal').hidden = false;
+  }
+  function closeSettingsModal(){ $('#settingsModal').hidden = true; }
+  function showSettingsError(msg){
+    var el = $('#settingsError');
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function handleSettingsSave(e){
+    e.preventDefault();
+    var form = e.target;
+    var owner = form.owner.value.trim();
+    var repo = form.repo.value.trim();
+    var token = form.token.value.trim();
+    if (!owner || !repo || !token) { showSettingsError('Please fill in all three fields.'); return; }
+    var btn = $('#saveSettingsBtn');
+    btn.disabled = true; btn.textContent = 'Connecting…';
+    setConfig({ owner:owner, repo:repo, token:token, path:'rounds.json' });
+    fetchRounds().then(function(res){
+      state.rounds = res.rounds; state.sha = res.sha;
+      cacheLocally(res.rounds);
+      setSyncStatus('Synced just now', 'ok');
+      btn.disabled = false; btn.textContent = 'Save and connect';
+      closeSettingsModal();
+      renderAll();
+    }).catch(function(err){
+      btn.disabled = false; btn.textContent = 'Save and connect';
+      showSettingsError('Could not connect: ' + err.message + '. Double check the username, repo name, and token permissions.');
+    });
+  }
+
+  function downloadBackup(){
+    var blob = new Blob([JSON.stringify(state.rounds, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'rounds-backup-' + todayStr() + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // ---- init ----
+  function loadAndRender(){
+    var cfg = getConfig();
+    if (!cfg) {
+      renderEmptyShell();
+      openSettingsModal(true);
+      return;
+    }
+    setSyncStatus('Loading…', 'syncing');
+    fetchRounds().then(function(res){
+      state.rounds = res.rounds; state.sha = res.sha;
+      cacheLocally(res.rounds);
+      setSyncStatus('Synced just now', 'ok');
+      renderAll();
+    }).catch(function(err){
+      console.error(err);
+      var cached = loadLocalCache();
+      if (cached) {
+        state.rounds = cached;
+        setSyncStatus('Offline — showing last saved data', 'warn');
+      } else {
+        state.rounds = [];
+        setSyncStatus('Could not connect — check settings', 'error');
+      }
+      renderAll();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    buildHolesGrid();
+    $('#addBtn').addEventListener('click', function(){ openRoundModal(null); });
+    $('#settingsBtn').addEventListener('click', function(){ openSettingsModal(false); });
+    $('#closeRoundModal').addEventListener('click', closeRoundModal);
+    $('#cancelRound').addEventListener('click', closeRoundModal);
+    $('#roundForm').addEventListener('submit', handleRoundFormSubmit);
+    $('#closeSettingsModal').addEventListener('click', closeSettingsModal);
+    $('#settingsForm').addEventListener('submit', handleSettingsSave);
+    $('#downloadBackupBtn').addEventListener('click', downloadBackup);
+    $('#toggleTokenVisibility').addEventListener('click', function(){
+      var inp = $('#settingsForm [name="token"]');
+      var btn = $('#toggleTokenVisibility');
+      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = 'Hide'; }
+      else { inp.type = 'password'; btn.textContent = 'Show'; }
+    });
+    $$('.modal-overlay').forEach(function(ov){
+      ov.addEventListener('click', function(e){ if (e.target === ov) ov.hidden = true; });
+    });
+    loadAndRender();
+  });
+})();
+</script>
+</body>
+</html>
