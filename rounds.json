@@ -55,36 +55,6 @@
   ],
   "rounds": [
     {
-      "id": "r_msr0544m3cs4n",
-      "date": "2026-08-13",
-      "course": "Pebble creek",
-      "par": 66,
-      "score": 6,
-      "players": "",
-      "notes": "",
-      "holes": [
-        null,
-        null,
-        null,
-        null,
-        6,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      "createdAt": "2026-08-13T04:12:20.902Z"
-    },
-    {
       "id": "r_msr07cmaqskko",
       "date": "2026-08-12",
       "course": "Iompo",
