@@ -129,6 +129,32 @@
       ],
       "tees": [],
       "createdAt": "2026-08-13T04:34:30.129Z"
+    },
+    {
+      "id": "r_msr0y0crtramq",
+      "name": "William J Devine Golf Course",
+      "pars": [
+        4,
+        4,
+        4,
+        3,
+        4,
+        4,
+        4,
+        3,
+        4,
+        4,
+        5,
+        4,
+        3,
+        4,
+        3,
+        4,
+        4,
+        5
+      ],
+      "tees": [],
+      "createdAt": "2026-08-13T04:34:49.035Z"
     }
   ],
   "rounds": [
@@ -136,7 +162,7 @@
       "id": "r_msr0pirtikgfv",
       "createdAt": "2026-08-13T04:28:13.001Z",
       "date": "2026-05-30",
-      "course": "William J Devine",
+      "course": "William J Devine Golf Course",
       "tee": null,
       "yardage": null,
       "par": 70,
