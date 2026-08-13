@@ -4,10 +4,29 @@
     "date": "2026-08-12",
     "course": "Test",
     "par": 67,
-    "score": 99,
+    "score": 16,
     "players": "Priya",
     "notes": "Helloo",
-    "holes": null,
+    "holes": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      8,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      8,
+      null
+    ],
     "createdAt": "2026-08-13T03:59:00.141Z"
   }
 ]
