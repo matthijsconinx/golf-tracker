@@ -23,7 +23,12 @@
         3,
         4
       ],
-      "tees": [],
+      "tees": [
+        {
+          "name": "White",
+          "yardage": null
+        }
+      ],
       "createdAt": "2026-08-13T04:32:15.335Z"
     },
     {
