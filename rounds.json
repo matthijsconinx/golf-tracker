@@ -1,32 +1,6 @@
 {
   "courses": [
     {
-      "id": "r_msr0fovf7nkyy",
-      "name": "Iompo",
-      "pars": [
-        5,
-        5,
-        5,
-        6,
-        5,
-        5,
-        5,
-        5,
-        3,
-        3,
-        3,
-        3,
-        5,
-        3,
-        3,
-        2,
-        3,
-        2
-      ],
-      "tees": [],
-      "createdAt": "2026-08-13T04:20:34.347Z"
-    },
-    {
       "id": "r_msr0pirth7f8j",
       "name": "William J Devine",
       "pars": [
