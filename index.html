@@ -29,6 +29,7 @@
   .topbar{display:flex;align-items:center;justify-content:space-between;padding:max(20px, env(safe-area-inset-top)) 0 12px;}
   .brand{display:flex;align-items:center;gap:8px;}
   .brand h1{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0;letter-spacing:-0.01em;}
+  .topbar-actions{display:flex;gap:10px;align-items:center;}
   .icon-btn{background:none;border:none;font-size:20px;color:var(--text-muted);cursor:pointer;padding:6px;line-height:1;}
   .sync-status{font-size:12px;color:var(--text-muted);margin-bottom:16px;min-height:16px;}
   .sync-status.error{color:var(--danger);}
@@ -53,6 +54,7 @@
   .round-main{flex:1;min-width:0;}
   .round-date{font-size:11px;color:var(--text-muted);}
   .round-course{font-weight:600;font-size:15px;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .round-tee{font-size:11px;color:var(--text-muted);margin-top:2px;}
   .round-players{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
   .chip{background:var(--accent-light);color:var(--accent-dark);font-size:11px;padding:2px 8px;border-radius:100px;}
   .round-score{text-align:right;}
@@ -63,6 +65,12 @@
   .par-tag.even{color:var(--text-muted);}
   .delete-btn{background:none;border:none;color:var(--text-muted);font-size:12px;padding:4px;cursor:pointer;}
   .empty{color:var(--text-muted);font-size:14px;text-align:center;padding:24px 0;}
+  .dot-strip{display:flex;flex-wrap:wrap;gap:3px;margin-top:8px;}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--border);}
+  .dot.eagle,.dot.birdie{background:var(--accent);}
+  .dot.par{background:var(--text-muted);}
+  .dot.bogey{background:#D8A036;}
+  .dot.double{background:var(--danger);}
 
   .modal-overlay{position:fixed;inset:0;background:rgba(30,42,34,.4);display:flex;align-items:flex-end;justify-content:center;z-index:100;}
   .modal-overlay[hidden]{display:none;}
@@ -71,8 +79,8 @@
   .modal-header h2{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0;}
   .modal-intro{font-size:13px;color:var(--text-muted);margin:0 0 14px;}
   label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:12px;font-weight:500;}
-  input,textarea{width:100%;margin-top:5px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;color:var(--text);background:#fff;}
-  input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+  input,textarea,select{width:100%;margin-top:5px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:16px;font-family:inherit;color:var(--text);background:#fff;}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .token-row{display:flex;gap:8px;align-items:center;}
   .token-row input{flex:1;}
@@ -81,12 +89,31 @@
   .holes-row-label{font-size:11px;color:var(--text-muted);margin:8px 0 4px;}
   .holes-row{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;}
   .hole-label{font-size:10px;text-align:center;color:var(--text-muted);margin:0;}
-  .hole-input{width:100%;padding:6px 2px;text-align:center;font-size:13px;margin-top:2px;}
+  .course-par-input{width:100%;padding:6px 2px;text-align:center;font-size:16px;margin-top:2px;}
   .hint{font-size:12px;color:var(--text-muted);line-height:1.5;margin:-4px 0 14px;}
   .hint a{color:var(--accent-dark);}
   .form-error{background:#FBEAEA;color:var(--danger);font-size:13px;padding:8px 10px;border-radius:8px;margin-bottom:12px;}
   .modal-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:4px;}
   .text-btn{background:none;border:none;color:var(--text-muted);font-size:14px;cursor:pointer;padding:8px 0;}
+
+  .hole-table-head{display:grid;grid-template-columns:24px 56px 56px 1fr;gap:6px;font-size:10px;color:var(--text-muted);padding:2px 0 6px;text-transform:uppercase;letter-spacing:.03em;}
+  .hole-row{display:grid;grid-template-columns:24px 56px 56px 1fr;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);}
+  .hole-row:last-child{border-bottom:none;}
+  .hole-num{font-size:12px;color:var(--text-muted);text-align:center;}
+  .hole-par-input,.hole-score-input{width:100%;padding:6px 2px;text-align:center;font-size:16px;margin:0;}
+  .hole-tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:100px;text-align:center;white-space:nowrap;justify-self:start;}
+  .tag-eagle,.tag-birdie{color:var(--accent-dark);background:var(--accent-light);}
+  .tag-par{color:var(--text-muted);background:var(--bg);}
+  .tag-bogey{color:#8A5A1F;background:#FBEEDC;}
+  .tag-double{color:var(--danger);background:#FBEAEA;}
+
+  .course-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+  .course-row:last-child{border-bottom:none;}
+  .course-name{font-weight:600;font-size:14px;}
+  .course-meta{font-size:12px;color:var(--text-muted);margin-top:1px;}
+  .tee-row{display:flex;gap:8px;margin-bottom:8px;align-items:center;}
+  .tee-row .tee-name-input{flex:2;margin:0;}
+  .tee-row .tee-yardage-input{flex:1;margin:0;}
 </style>
 </head>
 <body>
@@ -100,7 +127,10 @@
       </svg>
       <h1>Fairway Log</h1>
     </div>
-    <button class="icon-btn" id="settingsBtn" aria-label="Settings">&#9881;</button>
+    <div class="topbar-actions">
+      <button class="text-btn" id="coursesBtn" style="padding:6px 4px;">Courses</button>
+      <button class="icon-btn" id="settingsBtn" aria-label="Settings">&#9881;</button>
+    </div>
   </header>
 
   <div id="syncStatus" class="sync-status"></div>
@@ -132,8 +162,17 @@
         <input type="date" name="date" required>
       </label>
       <label>Course
-        <input type="text" name="course" required placeholder="e.g. Pebble Creek GC">
+        <input type="text" name="course" id="courseInput" required placeholder="e.g. Pebble Creek GC" list="courseNames" autocomplete="off">
+        <datalist id="courseNames"></datalist>
       </label>
+      <div class="row">
+        <label>Tee played (optional)
+          <select name="tee" id="teeSelect"><option value="">&mdash;</option></select>
+        </label>
+        <label>Yardage (optional)
+          <input type="number" name="yardage" id="yardageInput" placeholder="6200">
+        </label>
+      </div>
       <div class="row">
         <label>Par (optional)
           <input type="number" name="par" placeholder="72">
@@ -143,11 +182,13 @@
         </label>
       </div>
       <label>Who you played with (optional)
-        <input type="text" name="players" placeholder="e.g. Sam, Priya">
+        <input type="text" name="players" list="playerCombos" placeholder="e.g. Sam, Priya" autocomplete="off">
+        <datalist id="playerCombos"></datalist>
       </label>
       <details id="holesDetails">
         <summary>Add hole-by-hole scores (optional)</summary>
-        <div class="holes-grid" id="holesGrid"></div>
+        <div class="hole-table-head"><span></span><span>Par</span><span>Score</span><span>Result</span></div>
+        <div id="holesGrid"></div>
       </details>
       <label>Notes (optional)
         <textarea name="notes" rows="2" placeholder="Conditions, how it felt, anything worth remembering"></textarea>
@@ -191,6 +232,42 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="coursesModal" hidden>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Courses</h2>
+      <button class="icon-btn" id="closeCoursesModal" aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-intro">Saved par and tee info for courses you play, so you don't retype it every round.</p>
+    <div id="coursesList"></div>
+    <button type="button" class="primary-btn" id="addCourseBtn" style="margin-top:12px;">+ Add course</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="courseEditModal" hidden>
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="courseEditTitle">Add course</h2>
+      <button class="icon-btn" id="closeCourseEditModal" aria-label="Close">&times;</button>
+    </div>
+    <form id="courseEditForm">
+      <label>Course name
+        <input type="text" name="name" required placeholder="e.g. Pebble Creek GC">
+      </label>
+      <label>Par per hole (optional)</label>
+      <div id="courseParGrid"></div>
+      <label style="margin-top:14px;">Tees (optional)</label>
+      <div id="teesList"></div>
+      <button type="button" class="text-btn" id="addTeeRowBtn">+ Add tee</button>
+      <div class="form-error" id="courseEditError" hidden></div>
+      <div class="modal-actions">
+        <button type="button" class="text-btn" id="deleteCourseBtn" hidden>Delete course</button>
+        <button type="submit" class="primary-btn" id="saveCourseBtn" style="width:auto;margin:0;">Save course</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -199,7 +276,8 @@
   var CACHE_KEY = 'flg_cache';
   var API_BASE = 'https://api.github.com';
 
-  var state = { rounds: [], sha: null, editingId: null };
+  var state = { rounds: [], courses: [], sha: null, editingId: null, editingCourseId: null };
+  var teeRowCounter = 0;
 
   function $(sel, root){ return (root||document).querySelector(sel); }
   function $$(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
@@ -234,18 +312,31 @@
     return 'r_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
   }
 
+  function holeTagFor(diff){
+    if (diff <= -2) return { label:'Eagle', cls:'eagle' };
+    if (diff === -1) return { label:'Birdie', cls:'birdie' };
+    if (diff === 0) return { label:'Par', cls:'par' };
+    if (diff === 1) return { label:'Bogey', cls:'bogey' };
+    return { label:'Double+', cls:'double' };
+  }
+
   // ---- config & cache ----
   function getConfig(){
     try { var raw = localStorage.getItem(CONFIG_KEY); return raw ? JSON.parse(raw) : null; }
     catch(e){ return null; }
   }
   function setConfig(cfg){ localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); }
-  function cacheLocally(rounds){
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify(rounds)); } catch(e){}
+  function cacheLocally(data){
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch(e){}
   }
   function loadLocalCache(){
-    try { var raw = localStorage.getItem(CACHE_KEY); return raw ? JSON.parse(raw) : null; }
-    catch(e){ return null; }
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return { courses: [], rounds: parsed };
+      return { courses: parsed.courses||[], rounds: parsed.rounds||[] };
+    } catch(e){ return null; }
   }
 
   // ---- GitHub API ----
@@ -256,31 +347,33 @@
     };
   }
 
-  function fetchRounds(){
+  function fetchData(){
     var cfg = getConfig();
     if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) return Promise.reject(new Error('Settings not configured yet'));
     var url = API_BASE + '/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + (cfg.path || 'rounds.json');
     return fetch(url, { headers: ghHeaders(cfg.token) }).then(function(res){
-      if (res.status === 404) return { rounds: [], sha: null };
+      if (res.status === 404) return { courses: [], rounds: [], sha: null };
       if (!res.ok) {
         if (res.status === 401 || res.status === 403) throw new Error('Token rejected (' + res.status + ')');
         throw new Error('GitHub error ' + res.status);
       }
       return res.json().then(function(data){
-        var rounds = [];
-        try { rounds = JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g,''))); } catch(e){ rounds = []; }
-        if (!Array.isArray(rounds)) rounds = [];
-        return { rounds: rounds, sha: data.sha };
+        var parsed = {};
+        try { parsed = JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g,''))); } catch(e){ parsed = {}; }
+        var rounds, courses;
+        if (Array.isArray(parsed)) { rounds = parsed; courses = []; }
+        else { rounds = Array.isArray(parsed.rounds) ? parsed.rounds : []; courses = Array.isArray(parsed.courses) ? parsed.courses : []; }
+        return { courses: courses, rounds: rounds, sha: data.sha };
       });
     });
   }
 
-  function putRounds(rounds, sha){
+  function putData(courses, rounds, sha){
     var cfg = getConfig();
     var url = API_BASE + '/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + (cfg.path || 'rounds.json');
     var body = {
-      message: 'Update rounds.json (' + rounds.length + ' rounds)',
-      content: b64EncodeUnicode(JSON.stringify(rounds, null, 2))
+      message: 'Update rounds.json (' + rounds.length + ' rounds, ' + courses.length + ' courses)',
+      content: b64EncodeUnicode(JSON.stringify({ courses: courses, rounds: rounds }, null, 2))
     };
     if (sha) body.sha = sha;
 
@@ -294,8 +387,7 @@
 
     return doPut(body).then(function(res){
       if (res.status === 409) {
-        // sha was stale - refetch latest and retry once
-        return fetchRounds().then(function(fresh){
+        return fetchData().then(function(fresh){
           var retryBody = { message: body.message, content: body.content };
           if (fresh.sha) retryBody.sha = fresh.sha;
           return doPut(retryBody).then(function(res2){
@@ -312,12 +404,13 @@
     });
   }
 
-  function saveRounds(newRounds){
+  function saveData(newCourses, newRounds){
     setSyncStatus('Saving…', 'syncing');
-    return putRounds(newRounds, state.sha).then(function(sha){
+    return putData(newCourses, newRounds, state.sha).then(function(sha){
       state.sha = sha;
+      state.courses = newCourses;
       state.rounds = newRounds;
-      cacheLocally(newRounds);
+      cacheLocally({ courses: newCourses, rounds: newRounds });
       setSyncStatus('Synced just now', 'ok');
       return true;
     }).catch(function(err){
@@ -331,6 +424,76 @@
     var el = $('#syncStatus');
     el.textContent = text;
     el.className = 'sync-status ' + (type || '');
+  }
+
+  // ---- course library ----
+  function findCourseByName(name){
+    name = (name||'').trim();
+    if (!name) return null;
+    return state.courses.find(function(c){ return c.name === name; }) || null;
+  }
+
+  function autoLearnCourse(courseName, holes, teeName, yardage){
+    courseName = (courseName||'').trim();
+    if (!courseName) return state.courses;
+    var courses = state.courses.slice();
+    var idx = courses.findIndex(function(c){ return c.name === courseName; });
+    if (idx === -1) {
+      var pars = null;
+      if (holes && holes.some(function(h){ return h && h.par != null; })) {
+        pars = holes.map(function(h){ return (h && h.par != null) ? h.par : null; });
+      }
+      var tees = [];
+      if (teeName) tees.push({ name: teeName, yardage: yardage != null ? yardage : null });
+      courses.push({ id: genId(), name: courseName, pars: pars, tees: tees, createdAt: new Date().toISOString() });
+    } else if (teeName) {
+      var course = courses[idx];
+      var hasTee = (course.tees||[]).some(function(t){ return t.name === teeName; });
+      if (!hasTee) {
+        courses[idx] = Object.assign({}, course, { tees: (course.tees||[]).concat([{ name: teeName, yardage: yardage != null ? yardage : null }]) });
+      }
+    }
+    return courses;
+  }
+
+  function onCourseFieldChange(){
+    var name = $('#courseInput').value;
+    var course = findCourseByName(name);
+    var teeSelect = $('#teeSelect');
+    teeSelect.innerHTML = '<option value="">&mdash;</option>';
+    if (course && course.tees && course.tees.length) {
+      course.tees.forEach(function(t){
+        var opt = document.createElement('option');
+        opt.value = t.name;
+        opt.textContent = t.name + (t.yardage ? ' (' + t.yardage + ' yds)' : '');
+        teeSelect.appendChild(opt);
+      });
+    }
+    if (course && course.pars) {
+      var parInputs = $$('.hole-par-input');
+      var allEmpty = parInputs.every(function(i){ return !i.value; });
+      if (allEmpty && course.pars.some(function(p){ return p != null; })) {
+        course.pars.forEach(function(p, idx){
+          if (p != null) {
+            var inp = $('.hole-par-input[data-hole="' + (idx+1) + '"]');
+            if (inp) inp.value = p;
+          }
+        });
+        $('#holesDetails').open = true;
+        recomputeTotalsFromHoles();
+      }
+    }
+  }
+
+  function refreshDatalists(){
+    $('#courseNames').innerHTML = state.courses.map(function(c){
+      return '<option value="' + escapeHTML(c.name) + '">';
+    }).join('');
+    var combos = {};
+    state.rounds.forEach(function(r){ if (r.players && r.players.trim()) combos[r.players.trim()] = true; });
+    $('#playerCombos').innerHTML = Object.keys(combos).map(function(p){
+      return '<option value="' + escapeHTML(p) + '">';
+    }).join('');
   }
 
   // ---- stats & chart ----
@@ -410,18 +573,41 @@
   function roundCardHTML(r){
     var players = (r.players || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
     var chips = players.map(function(p){ return '<span class="chip">' + escapeHTML(p) + '</span>'; }).join('');
+
+    var effectivePar = r.par;
+    var holesWithPar = r.holes ? r.holes.filter(function(h){ return h && h.par != null; }) : [];
+    if (holesWithPar.length) effectivePar = holesWithPar.reduce(function(a,h){ return a + h.par; }, 0);
+
     var parTag = '';
-    if (r.par) {
-      var diff = r.score - r.par;
+    if (effectivePar) {
+      var diff = r.score - effectivePar;
       var label = diff === 0 ? 'E' : (diff > 0 ? '+' + diff : String(diff));
       var cls = diff > 0 ? 'over' : (diff < 0 ? 'under' : 'even');
       parTag = '<span class="par-tag ' + cls + '">' + label + '</span>';
     }
+
+    var teeLine = '';
+    if (r.tee || r.yardage) {
+      teeLine = '<div class="round-tee">' + [r.tee, r.yardage ? r.yardage + ' yds' : ''].filter(Boolean).join(' · ') + '</div>';
+    }
+
+    var dotStrip = '';
+    if (r.holes && r.holes.some(function(h){ return h && h.par != null && h.score != null; })) {
+      var dots = r.holes.map(function(h){
+        if (!h || h.par == null || h.score == null) return '<span class="dot"></span>';
+        var tag = holeTagFor(h.score - h.par);
+        return '<span class="dot ' + tag.cls + '"></span>';
+      }).join('');
+      dotStrip = '<div class="dot-strip" aria-label="Per-hole result, one dot per hole">' + dots + '</div>';
+    }
+
     return '<div class="round-card" data-id="' + r.id + '">' +
       '<div class="round-main">' +
         '<div class="round-date">' + formatDate(r.date) + '</div>' +
         '<div class="round-course">' + escapeHTML(r.course || 'Unknown course') + '</div>' +
+        teeLine +
         (chips ? '<div class="round-players">' + chips + '</div>' : '') +
+        dotStrip +
       '</div>' +
       '<div class="round-score"><span class="score-num">' + r.score + '</span>' + parTag + '</div>' +
       '<button class="delete-btn" data-id="' + r.id + '" aria-label="Delete round">Delete</button>' +
@@ -441,29 +627,50 @@
     renderStats();
     renderChart();
     renderList();
+    refreshDatalists();
   }
 
-  // ---- hole-by-hole grid ----
-  function holeInputHTML(n){
-    return '<label class="hole-label">' + n + '<input type="number" class="hole-input" data-hole="' + n + '"></label>';
+  // ---- hole-by-hole grid (round entry) ----
+  function holeRowHTML(n){
+    return '<div class="hole-row" data-hole="' + n + '">' +
+      '<span class="hole-num">' + n + '</span>' +
+      '<input type="number" class="hole-par-input" data-hole="' + n + '" placeholder="Par">' +
+      '<input type="number" class="hole-score-input" data-hole="' + n + '" placeholder="Score">' +
+      '<span class="hole-tag" data-hole-tag="' + n + '"></span>' +
+    '</div>';
   }
   function buildHolesGrid(){
     var grid = $('#holesGrid');
-    var html = '<div class="holes-row-label">Front 9</div><div class="holes-row">';
-    for (var i=1;i<=9;i++) html += holeInputHTML(i);
-    html += '</div><div class="holes-row-label">Back 9</div><div class="holes-row">';
-    for (var j=10;j<=18;j++) html += holeInputHTML(j);
-    html += '</div>';
+    var html = '';
+    for (var i=1;i<=18;i++) html += holeRowHTML(i);
     grid.innerHTML = html;
-    $$('.hole-input').forEach(function(inp){ inp.addEventListener('input', recomputeTotalFromHoles); });
+    $$('.hole-par-input, .hole-score-input').forEach(function(inp){
+      inp.addEventListener('input', recomputeTotalsFromHoles);
+    });
   }
-  function recomputeTotalFromHoles(){
-    var vals = $$('.hole-input').map(function(i){ return i.value ? parseInt(i.value,10) : null; });
-    var filled = vals.filter(function(v){ return v !== null; });
-    if (filled.length) {
-      var sum = filled.reduce(function(a,b){ return a+b; }, 0);
-      $('#roundForm [name="score"]').value = sum;
+  function recomputeTotalsFromHoles(){
+    var totalScore = 0, filledScore = 0, totalPar = 0, filledPar = 0;
+    for (var h=1; h<=18; h++){
+      var scoreInp = $('.hole-score-input[data-hole="'+h+'"]');
+      var parInp = $('.hole-par-input[data-hole="'+h+'"]');
+      var tagSpan = $('.hole-tag[data-hole-tag="'+h+'"]');
+      var sVal = scoreInp && scoreInp.value ? parseInt(scoreInp.value,10) : null;
+      var pVal = parInp && parInp.value ? parseInt(parInp.value,10) : null;
+      if (sVal != null) { totalScore += sVal; filledScore++; }
+      if (pVal != null) { totalPar += pVal; filledPar++; }
+      if (tagSpan) {
+        if (sVal != null && pVal != null) {
+          var tag = holeTagFor(sVal - pVal);
+          tagSpan.textContent = tag.label;
+          tagSpan.className = 'hole-tag tag-' + tag.cls;
+        } else {
+          tagSpan.textContent = '';
+          tagSpan.className = 'hole-tag';
+        }
+      }
     }
+    if (filledScore) $('#roundForm [name="score"]').value = totalScore;
+    if (filledPar) $('#roundForm [name="par"]').value = totalPar;
   }
 
   // ---- round modal ----
@@ -472,22 +679,31 @@
     $('#roundModalTitle').textContent = round ? 'Edit round' : 'Add round';
     var form = $('#roundForm');
     form.reset();
-    $$('.hole-input').forEach(function(i){ i.value = ''; });
+    $$('.hole-par-input, .hole-score-input').forEach(function(i){ i.value = ''; });
+    $$('.hole-tag').forEach(function(s){ s.textContent = ''; s.className = 'hole-tag'; });
+    $('#teeSelect').innerHTML = '<option value="">&mdash;</option>';
     $('#holesDetails').open = false;
     $('#roundFormError').hidden = true;
     if (round) {
       form.date.value = round.date || '';
       form.course.value = round.course || '';
-      form.par.value = round.par || '';
+      onCourseFieldChange();
+      form.tee.value = round.tee || '';
+      form.yardage.value = round.yardage != null ? round.yardage : '';
+      form.par.value = round.par != null ? round.par : '';
       form.score.value = round.score != null ? round.score : '';
       form.players.value = round.players || '';
       form.notes.value = round.notes || '';
       if (round.holes && round.holes.length === 18) {
         $('#holesDetails').open = true;
-        round.holes.forEach(function(v, idx){
-          var inp = $('.hole-input[data-hole="' + (idx+1) + '"]');
-          if (inp && v != null) inp.value = v;
+        round.holes.forEach(function(h, idx){
+          if (!h) return;
+          var scoreInp = $('.hole-score-input[data-hole="' + (idx+1) + '"]');
+          var parInp = $('.hole-par-input[data-hole="' + (idx+1) + '"]');
+          if (scoreInp) scoreInp.value = h.score != null ? h.score : '';
+          if (parInp) parInp.value = h.par != null ? h.par : '';
         });
+        recomputeTotalsFromHoles();
       }
     } else {
       form.date.value = todayStr();
@@ -509,33 +725,47 @@
     var form = e.target;
     var date = form.date.value;
     var course = form.course.value.trim();
+    var tee = form.tee.value.trim();
+    var yardage = form.yardage.value ? parseInt(form.yardage.value, 10) : null;
     var par = form.par.value ? parseInt(form.par.value, 10) : null;
     var score = parseInt(form.score.value, 10);
     var players = form.players.value.trim();
     var notes = form.notes.value.trim();
+
     var holes = null;
     if ($('#holesDetails').open) {
-      var vals = $$('.hole-input').map(function(i){ return i.value ? parseInt(i.value,10) : null; });
-      if (vals.some(function(v){ return v !== null; })) holes = vals;
+      var hs = [];
+      var any = false;
+      for (var h=1; h<=18; h++){
+        var scoreInp = $('.hole-score-input[data-hole="'+h+'"]');
+        var parInp = $('.hole-par-input[data-hole="'+h+'"]');
+        var sVal = scoreInp && scoreInp.value ? parseInt(scoreInp.value,10) : null;
+        var pVal = parInp && parInp.value ? parseInt(parInp.value,10) : null;
+        if (sVal != null || pVal != null) any = true;
+        hs.push({ score: sVal, par: pVal });
+      }
+      if (any) holes = hs;
     }
+
     if (!date || !course || isNaN(score)) {
       showFormError('Please fill in date, course, and score.');
       return;
     }
+
+    var roundData = { date:date, course:course, tee: tee || null, yardage: yardage, par:par, score:score, players:players, notes:notes, holes:holes };
     var newRounds;
     if (state.editingId) {
       newRounds = state.rounds.map(function(r){
-        return r.id === state.editingId ? Object.assign({}, r, { date:date, course:course, par:par, score:score, players:players, notes:notes, holes:holes }) : r;
+        return r.id === state.editingId ? Object.assign({}, r, roundData) : r;
       });
     } else {
-      newRounds = state.rounds.concat([{
-        id: genId(), date:date, course:course, par:par, score:score, players:players, notes:notes, holes:holes,
-        createdAt: new Date().toISOString()
-      }]);
+      newRounds = state.rounds.concat([Object.assign({ id: genId(), createdAt: new Date().toISOString() }, roundData)]);
     }
+    var newCourses = autoLearnCourse(course, holes, tee, yardage);
+
     var btn = $('#saveRoundBtn');
     btn.disabled = true; btn.textContent = 'Saving…';
-    saveRounds(newRounds).then(function(ok){
+    saveData(newCourses, newRounds).then(function(ok){
       btn.disabled = false; btn.textContent = 'Save round';
       if (ok) { closeRoundModal(); renderAll(); }
       else showFormError('Could not sync to GitHub — this entry was not saved. Check your connection and try again.');
@@ -545,9 +775,147 @@
   function deleteRound(id){
     if (!confirm('Delete this round? This cannot be undone.')) return;
     var newRounds = state.rounds.filter(function(r){ return r.id !== id; });
-    saveRounds(newRounds).then(function(ok){
+    saveData(state.courses, newRounds).then(function(ok){
       if (ok) renderAll();
       else alert('Could not delete — sync failed. Check your connection and try again.');
+    });
+  }
+
+  // ---- courses modal ----
+  function renderCoursesList(){
+    var list = $('#coursesList');
+    if (!state.courses.length) {
+      list.innerHTML = '<p class="empty">No saved courses yet — courses you play get added automatically once you log a round with hole-by-hole pars, or add one manually below.</p>';
+      return;
+    }
+    list.innerHTML = state.courses.map(function(c){
+      var pars = (c.pars||[]).filter(function(p){ return p != null; });
+      var parTotal = pars.length ? pars.reduce(function(a,b){ return a+b; }, 0) : null;
+      var teeCount = (c.tees||[]).length;
+      var metaParts = [];
+      metaParts.push(parTotal != null ? ('Par ' + parTotal) : 'No pars saved');
+      if (teeCount) metaParts.push(teeCount + ' tee' + (teeCount>1?'s':''));
+      return '<div class="course-row" data-id="' + c.id + '">' +
+        '<div><div class="course-name">' + escapeHTML(c.name) + '</div>' +
+        '<div class="course-meta">' + escapeHTML(metaParts.join(' · ')) + '</div></div>' +
+        '<span class="text-btn">Edit</span>' +
+      '</div>';
+    }).join('');
+    $$('.course-row').forEach(function(row){
+      row.addEventListener('click', function(){
+        var course = state.courses.find(function(c){ return c.id === row.dataset.id; });
+        if (course) openCourseEditModal(course);
+      });
+    });
+  }
+  function openCoursesModal(){ renderCoursesList(); $('#coursesModal').hidden = false; }
+  function closeCoursesModal(){ $('#coursesModal').hidden = true; }
+
+  function courseParInputHTML(n){
+    return '<label class="hole-label">' + n + '<input type="number" class="course-par-input" data-hole="' + n + '"></label>';
+  }
+  function buildCourseParGrid(){
+    var grid = $('#courseParGrid');
+    var html = '<div class="holes-row-label">Front 9</div><div class="holes-row">';
+    for (var i=1;i<=9;i++) html += courseParInputHTML(i);
+    html += '</div><div class="holes-row-label">Back 9</div><div class="holes-row">';
+    for (var j=10;j<=18;j++) html += courseParInputHTML(j);
+    html += '</div>';
+    grid.innerHTML = html;
+  }
+
+  function renderTeesEditor(tees){
+    $('#teesList').innerHTML = '';
+    teeRowCounter = 0;
+    (tees||[]).forEach(function(t){ addTeeRow(t.name, t.yardage); });
+  }
+  function addTeeRow(name, yardage){
+    teeRowCounter++;
+    var row = document.createElement('div');
+    row.className = 'tee-row';
+    row.innerHTML =
+      '<input type="text" class="tee-name-input" placeholder="e.g. White" value="' + escapeHTML(name||'') + '">' +
+      '<input type="number" class="tee-yardage-input" placeholder="Yards" value="' + (yardage!=null?yardage:'') + '">' +
+      '<button type="button" class="text-btn remove-tee-btn">Remove</button>';
+    $('#teesList').appendChild(row);
+    row.querySelector('.remove-tee-btn').addEventListener('click', function(){ row.remove(); });
+  }
+
+  function openCourseEditModal(course){
+    state.editingCourseId = course ? course.id : null;
+    $('#courseEditTitle').textContent = course ? 'Edit course' : 'Add course';
+    var form = $('#courseEditForm');
+    form.reset();
+    $$('.course-par-input').forEach(function(i){ i.value = ''; });
+    renderTeesEditor(course ? course.tees : []);
+    $('#courseEditError').hidden = true;
+    $('#deleteCourseBtn').hidden = !course;
+    if (course) {
+      form.name.value = course.name;
+      (course.pars||[]).forEach(function(p, idx){
+        if (p != null) { var inp = $('.course-par-input[data-hole="'+(idx+1)+'"]'); if (inp) inp.value = p; }
+      });
+    }
+    $('#courseEditModal').hidden = false;
+  }
+  function closeCourseEditModal(){
+    $('#courseEditModal').hidden = true;
+    state.editingCourseId = null;
+  }
+  function showCourseEditError(msg){
+    var el = $('#courseEditError');
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function handleCourseEditSubmit(e){
+    e.preventDefault();
+    var form = e.target;
+    var name = form.name.value.trim();
+    if (!name) { showCourseEditError('Please enter a course name.'); return; }
+
+    var pars = [], anyPar = false;
+    for (var h=1; h<=18; h++){
+      var inp = $('.course-par-input[data-hole="'+h+'"]');
+      var v = inp && inp.value ? parseInt(inp.value,10) : null;
+      if (v != null) anyPar = true;
+      pars.push(v);
+    }
+    var tees = $$('.tee-row').map(function(row){
+      var n = row.querySelector('.tee-name-input').value.trim();
+      var y = row.querySelector('.tee-yardage-input').value;
+      return n ? { name:n, yardage: y ? parseInt(y,10) : null } : null;
+    }).filter(Boolean);
+
+    var newCourses;
+    if (state.editingCourseId) {
+      newCourses = state.courses.map(function(c){
+        return c.id === state.editingCourseId ? Object.assign({}, c, { name:name, pars: anyPar?pars:c.pars, tees:tees }) : c;
+      });
+    } else {
+      if (state.courses.some(function(c){ return c.name === name; })) {
+        showCourseEditError('A course with this name already exists — edit it from the list instead.');
+        return;
+      }
+      newCourses = state.courses.concat([{ id: genId(), name:name, pars: anyPar?pars:null, tees:tees, createdAt: new Date().toISOString() }]);
+    }
+
+    var btn = $('#saveCourseBtn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    saveData(newCourses, state.rounds).then(function(ok){
+      btn.disabled = false; btn.textContent = 'Save course';
+      if (ok) { closeCourseEditModal(); renderCoursesList(); renderAll(); }
+      else showCourseEditError('Could not sync to GitHub — this course was not saved. Try again.');
+    });
+  }
+
+  function deleteCourseHandler(){
+    if (!state.editingCourseId) return;
+    if (!confirm('Delete this course? Rounds you already logged there will keep their own data.')) return;
+    var newCourses = state.courses.filter(function(c){ return c.id !== state.editingCourseId; });
+    saveData(newCourses, state.rounds).then(function(ok){
+      if (ok) { closeCourseEditModal(); renderCoursesList(); renderAll(); }
+      else alert('Could not delete — sync failed. Try again.');
     });
   }
 
@@ -583,9 +951,9 @@
     var btn = $('#saveSettingsBtn');
     btn.disabled = true; btn.textContent = 'Connecting…';
     setConfig({ owner:owner, repo:repo, token:token, path:'rounds.json' });
-    fetchRounds().then(function(res){
-      state.rounds = res.rounds; state.sha = res.sha;
-      cacheLocally(res.rounds);
+    fetchData().then(function(res){
+      state.rounds = res.rounds; state.courses = res.courses; state.sha = res.sha;
+      cacheLocally({ courses: res.courses, rounds: res.rounds });
       setSyncStatus('Synced just now', 'ok');
       btn.disabled = false; btn.textContent = 'Save and connect';
       closeSettingsModal();
@@ -597,10 +965,10 @@
   }
 
   function downloadBackup(){
-    var blob = new Blob([JSON.stringify(state.rounds, null, 2)], { type: 'application/json' });
+    var blob = new Blob([JSON.stringify({ courses: state.courses, rounds: state.rounds }, null, 2)], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url; a.download = 'rounds-backup-' + todayStr() + '.json';
+    a.href = url; a.download = 'fairway-log-backup-' + todayStr() + '.json';
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
   }
@@ -614,19 +982,19 @@
       return;
     }
     setSyncStatus('Loading…', 'syncing');
-    fetchRounds().then(function(res){
-      state.rounds = res.rounds; state.sha = res.sha;
-      cacheLocally(res.rounds);
+    fetchData().then(function(res){
+      state.rounds = res.rounds; state.courses = res.courses; state.sha = res.sha;
+      cacheLocally({ courses: res.courses, rounds: res.rounds });
       setSyncStatus('Synced just now', 'ok');
       renderAll();
     }).catch(function(err){
       console.error(err);
       var cached = loadLocalCache();
       if (cached) {
-        state.rounds = cached;
+        state.rounds = cached.rounds; state.courses = cached.courses;
         setSyncStatus('Offline — showing last saved data', 'warn');
       } else {
-        state.rounds = [];
+        state.rounds = []; state.courses = [];
         setSyncStatus('Could not connect — check settings', 'error');
       }
       renderAll();
@@ -635,11 +1003,21 @@
 
   document.addEventListener('DOMContentLoaded', function(){
     buildHolesGrid();
+    buildCourseParGrid();
     $('#addBtn').addEventListener('click', function(){ openRoundModal(null); });
     $('#settingsBtn').addEventListener('click', function(){ openSettingsModal(false); });
     $('#closeRoundModal').addEventListener('click', closeRoundModal);
     $('#cancelRound').addEventListener('click', closeRoundModal);
     $('#roundForm').addEventListener('submit', handleRoundFormSubmit);
+    $('#courseInput').addEventListener('input', onCourseFieldChange);
+    $('#teeSelect').addEventListener('change', function(){
+      var course = findCourseByName($('#courseInput').value);
+      var chosen = this.value;
+      if (course && chosen) {
+        var t = (course.tees||[]).find(function(t){ return t.name === chosen; });
+        if (t && t.yardage) $('#yardageInput').value = t.yardage;
+      }
+    });
     $('#closeSettingsModal').addEventListener('click', closeSettingsModal);
     $('#settingsForm').addEventListener('submit', handleSettingsSave);
     $('#downloadBackupBtn').addEventListener('click', downloadBackup);
@@ -649,6 +1027,13 @@
       if (inp.type === 'password') { inp.type = 'text'; btn.textContent = 'Hide'; }
       else { inp.type = 'password'; btn.textContent = 'Show'; }
     });
+    $('#coursesBtn').addEventListener('click', openCoursesModal);
+    $('#closeCoursesModal').addEventListener('click', closeCoursesModal);
+    $('#addCourseBtn').addEventListener('click', function(){ openCourseEditModal(null); });
+    $('#closeCourseEditModal').addEventListener('click', closeCourseEditModal);
+    $('#courseEditForm').addEventListener('submit', handleCourseEditSubmit);
+    $('#addTeeRowBtn').addEventListener('click', function(){ addTeeRow('', null); });
+    $('#deleteCourseBtn').addEventListener('click', deleteCourseHandler);
     $$('.modal-overlay').forEach(function(ov){
       ov.addEventListener('click', function(e){ if (e.target === ov) ov.hidden = true; });
     });
