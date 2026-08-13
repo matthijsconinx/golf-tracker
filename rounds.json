@@ -77,6 +77,32 @@
       ],
       "tees": [],
       "createdAt": "2026-08-13T04:28:13.001Z"
+    },
+    {
+      "id": "r_msr0uprbsxaqr",
+      "name": "George Wright Golf Course",
+      "pars": [
+        4,
+        4,
+        5,
+        3,
+        4,
+        4,
+        4,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        3,
+        5,
+        4,
+        3,
+        4
+      ],
+      "tees": [],
+      "createdAt": "2026-08-13T04:32:15.335Z"
     }
   ],
   "rounds": [
@@ -163,6 +189,92 @@
         {
           "score": 6,
           "par": 5
+        }
+      ]
+    },
+    {
+      "id": "r_msr0upra5sf9r",
+      "createdAt": "2026-08-13T04:32:15.334Z",
+      "date": "2026-08-02",
+      "course": "George Wright Golf Course",
+      "tee": null,
+      "yardage": null,
+      "par": 70,
+      "score": 111,
+      "players": "Lauri, Blake, Shivin",
+      "notes": "",
+      "holes": [
+        {
+          "score": 5,
+          "par": 4
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 7,
+          "par": 5
+        },
+        {
+          "score": 6,
+          "par": 3
+        },
+        {
+          "score": 8,
+          "par": 4
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 7,
+          "par": 4
+        },
+        {
+          "score": 5,
+          "par": 3
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 8,
+          "par": 4
+        },
+        {
+          "score": 5,
+          "par": 3
+        },
+        {
+          "score": 7,
+          "par": 5
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": 4,
+          "par": 3
+        },
+        {
+          "score": 7,
+          "par": 4
         }
       ]
     }
