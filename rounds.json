@@ -4,7 +4,7 @@
     "date": "2026-08-12",
     "course": "TEST COURSE",
     "par": 56,
-    "score": 11,
+    "score": 12,
     "players": "Myself",
     "notes": "",
     "holes": [
@@ -22,7 +22,7 @@
       null,
       null,
       null,
-      2,
+      3,
       null,
       1,
       2
