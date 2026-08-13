@@ -4,10 +4,29 @@
     "date": "2026-08-12",
     "course": "TEST COURSE",
     "par": 56,
-    "score": 99,
+    "score": 11,
     "players": "Myself",
     "notes": "",
-    "holes": null,
+    "holes": [
+      2,
+      null,
+      2,
+      2,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      2,
+      null,
+      1,
+      2
+    ],
     "createdAt": "2026-08-13T03:54:38.884Z"
   }
 ]
