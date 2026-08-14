@@ -29,7 +29,8 @@
           "yardage": null
         }
       ],
-      "createdAt": "2026-08-13T04:32:15.335Z"
+      "createdAt": "2026-08-13T04:32:15.335Z",
+      "holesCount": 18
     },
     {
       "id": "r_msr0xlrle5oku",
@@ -60,7 +61,8 @@
           "yardage": null
         }
       ],
-      "createdAt": "2026-08-13T04:34:30.129Z"
+      "createdAt": "2026-08-13T04:34:30.129Z",
+      "holesCount": 18
     },
     {
       "id": "r_msr0y0crtramq",
@@ -91,7 +93,8 @@
           "yardage": null
         }
       ],
-      "createdAt": "2026-08-13T04:34:49.035Z"
+      "createdAt": "2026-08-13T04:34:49.035Z",
+      "holesCount": 18
     },
     {
       "id": "r_mssaep803n0k2",
@@ -117,7 +120,8 @@
         null
       ],
       "tees": [],
-      "createdAt": "2026-08-14T01:47:30.480Z"
+      "createdAt": "2026-08-14T01:47:30.480Z",
+      "holesCount": 18
     }
   ],
   "rounds": [
@@ -205,7 +209,9 @@
           "score": 6,
           "par": 5
         }
-      ]
+      ],
+      "holesPlayed": 18,
+      "handicap": null
     },
     {
       "id": "r_msr0upra5sf9r",
@@ -291,7 +297,9 @@
           "score": 7,
           "par": 4
         }
-      ]
+      ],
+      "holesPlayed": 18,
+      "handicap": null
     },
     {
       "id": "r_msr0xlrkkb9xq",
@@ -377,7 +385,9 @@
           "score": 5,
           "par": 3
         }
-      ]
+      ],
+      "holesPlayed": 18,
+      "handicap": null
     },
     {
       "id": "r_mssaep80ksd7c",
@@ -426,44 +436,10 @@
         {
           "score": 6,
           "par": 3
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
-        },
-        {
-          "score": null,
-          "par": null
         }
-      ]
+      ],
+      "holesPlayed": 9,
+      "handicap": 25
     }
   ]
 }
