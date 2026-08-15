@@ -440,6 +440,94 @@
       ],
       "holesPlayed": 9,
       "handicap": 25
+    },
+    {
+      "id": "r_msv08gz47g2nb",
+      "createdAt": "2026-08-15T23:26:02.224Z",
+      "date": "2026-08-15",
+      "course": "William J Devine Golf Course",
+      "tee": "White",
+      "yardage": 5685,
+      "holesPlayed": 18,
+      "par": 70,
+      "score": 18,
+      "handicap": 25,
+      "players": "Lauri",
+      "notes": "",
+      "holes": [
+        {
+          "score": 7,
+          "par": 4
+        },
+        {
+          "score": 5,
+          "par": 4
+        },
+        {
+          "score": 6,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 3
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 3
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 5
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 3
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 3
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 4
+        },
+        {
+          "score": null,
+          "par": 5
+        }
+      ]
     }
   ],
   "handicap": 25
